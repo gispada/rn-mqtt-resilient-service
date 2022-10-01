@@ -129,6 +129,10 @@ def reactNativeArchitectures() {
     return value ? value.split(",") : ["armeabi-v7a", "x86", "x86_64", "arm64-v8a"]
 }
 
+def mqttPropertiesFile = rootProject.file("mqtt.properties")
+def mqttProperties = new Properties()
+mqttProperties.load(new FileInputStream(mqttPropertiesFile))
+
 android {
     ndkVersion rootProject.ext.ndkVersion
 
@@ -141,6 +145,10 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
+        buildConfigField "String", "MQTT_BROKER_URI", mqttProperties.getProperty("BROKER_URI")
+        buildConfigField "String", "MQTT_USERNAME", mqttProperties.getProperty("USERNAME")
+        buildConfigField "String", "MQTT_PASSWORD", mqttProperties.getProperty("PASSWORD")
+        buildConfigField "String", "MQTT_TOPIC", mqttProperties.getProperty("TOPIC")
 
         if (isNewArchitectureEnabled()) {
             // We configure the CMake build only if you decide to opt-in for the New Architecture.
@@ -255,6 +263,15 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+    // Apparently eclipse/paho.mqtt.android hasn't been updated for years, and still uses legacy APIs
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    // https://mvnrepository.com/artifact/org.eclipse.paho/org.eclipse.paho.client.mqttv3
+    implementation "org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5"
+
+    // https://mvnrepository.com/artifact/org.eclipse.paho/org.eclipse.paho.android.service
+    implementation "org.eclipse.paho:org.eclipse.paho.android.service:1.1.1"
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
