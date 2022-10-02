@@ -82,7 +82,7 @@ public class MqttConnectionManagerService extends Service {
             if (!client.isConnected()) {
                 IMqttToken token = client.connect(options);
                 token.setActionCallback(new MqttConnectionListener(client));
-                client.setCallback(new MqttSubscriber());
+                client.setCallback(new MqttSubscriber(getApplicationContext()));
             }
         } catch (MqttException e) {
             Log.d(TAG, "Connection to MQTT broker failed");

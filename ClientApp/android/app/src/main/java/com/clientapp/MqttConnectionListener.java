@@ -30,7 +30,7 @@ public class MqttConnectionListener implements IMqttActionListener {
 
     @Override
     public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-        Log.d(TAG, "Failed to connect to " + BuildConfig.MQTT_BROKER_URI);
+        Log.e(TAG, "Failed to connect to " + BuildConfig.MQTT_BROKER_URI);
         exception.printStackTrace();
     }
 
