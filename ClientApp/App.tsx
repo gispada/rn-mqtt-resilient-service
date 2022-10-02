@@ -9,38 +9,30 @@ import {
   View,
 } from 'react-native'
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen'
+import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 const Section: React.FC<
   PropsWithChildren<{
-    title: string
+    title?: string
   }>
 > = ({ children, title }) => {
   const isDarkMode = useColorScheme() === 'dark'
   return (
     <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}
-      >
-        {title}
-      </Text>
+      {title && (
+        <Text
+          style={[
+            styles.sectionTitle,
+            { color: isDarkMode ? Colors.white : Colors.black },
+          ]}
+        >
+          {title}
+        </Text>
+      )}
       <Text
         style={[
           styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
+          { color: isDarkMode ? Colors.light : Colors.dark },
         ]}
       >
         {children}
@@ -66,26 +58,22 @@ const App = () => {
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}
       >
-        <Header />
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}
         >
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
+          <Section title="React Native & MQTT Service">
+            A PoC React Native application always connected to a MQTT broker.
           </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
+
+          <Section>
+            When an event is received, it is processed on Android (a simple log
+            of the message), then sent to JS via a headless task service. When
+            received in JS, it is logged again.
           </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+
+          <Section>To see the logs, check the Logcat output.</Section>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -106,8 +94,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '400',
   },
-  highlight: {
-    fontWeight: '700',
+  block: {
+    marginTop: 10,
   },
 })
 
