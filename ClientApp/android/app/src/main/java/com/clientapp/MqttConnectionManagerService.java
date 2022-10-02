@@ -52,9 +52,8 @@ public class MqttConnectionManagerService extends Service {
                 notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("MQTT Client Service")
-                .setContentText("Device connected to the MQTT broker, listening on \""
-                        + BuildConfig.MQTT_TOPIC + "\".")
-                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setContentText("Device connected to the MQTT broker.")
+                .setSmallIcon(R.drawable.mqtt_logo)
                 .setContentIntent(contentIntent)
                 .setOngoing(true)
                 .build();
