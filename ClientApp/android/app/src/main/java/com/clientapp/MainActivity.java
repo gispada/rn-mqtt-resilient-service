@@ -1,6 +1,7 @@
 package com.clientapp;
 
 import android.content.Intent;
+import android.os.Build;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -51,6 +52,10 @@ public class MainActivity extends ReactActivity {
   @Override
   protected void onResume() {
     super.onResume();
-    startService(new Intent(this, MqttConnectionManagerService.class));
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      startForegroundService(new Intent(this, MqttConnectionManagerService.class));
+    } else {
+      startService(new Intent(this, MqttConnectionManagerService.class));
+    }
   }
 }

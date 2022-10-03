@@ -29,12 +29,10 @@ public class MqttConnectionManagerService extends Service {
             Build.PRODUCT,
             UUID.randomUUID().toString());
     private MqttAndroidClient client;
-    private MqttConnectOptions options;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        options = createMqttConnectOptions();
         client = createMqttAndroidClient();
     }
 
@@ -80,7 +78,7 @@ public class MqttConnectionManagerService extends Service {
     public void connect() {
         try {
             if (!client.isConnected()) {
-                IMqttToken token = client.connect(options);
+                IMqttToken token = client.connect(createMqttConnectOptions());
                 token.setActionCallback(new MqttConnectionListener(client));
                 client.setCallback(new MqttSubscriber(getApplicationContext()));
             }
